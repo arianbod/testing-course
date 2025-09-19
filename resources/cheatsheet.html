@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Cheat Sheet - Testing Mastery</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        .cheatsheet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .cheat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .cheat-card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        .command-list {
+            list-style: none;
+            padding: 0;
+        }
+        .command-list li {
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .command-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            font-family: -apple-system, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">📋</span>
+                <span class="brand-text">Testing Cheat Sheet</span>
+            </div>
+            <a href="../index.html" class="btn btn-secondary">← Back to Course</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Complete Testing Cheat Sheet</h1>
+            <p class="hero-subtitle">Quick reference for Vitest, React Testing Library, and Next.js testing</p>
+        </header>
+
+        <section class="lesson-section">
+            <h2>Vitest Commands & Configuration</h2>
+
+            <div class="cheatsheet-grid">
+                <div class="cheat-card">
+                    <h3>CLI Commands</h3>
+                    <ul class="command-list">
+                        <li>
+                            vitest
+                            <div class="command-desc">Run tests in watch mode</div>
+                        </li>
+                        <li>
+                            vitest run
+                            <div class="command-desc">Run tests once and exit</div>
+                        </li>
+                        <li>
+                            vitest --ui
+                            <div class="command-desc">Open UI dashboard</div>
+                        </li>
+                        <li>
+                            vitest --coverage
+                            <div class="command-desc">Generate coverage report</div>
+                        </li>
+                        <li>
+                            vitest --run --reporter=json
+                            <div class="command-desc">Output results as JSON</div>
+                        </li>
+                        <li>
+                            vitest related ./src/file.ts
+                            <div class="command-desc">Run tests related to file</div>
+                        </li>
+                        <li>
+                            vitest --inspect-brk
+                            <div class="command-desc">Debug tests with Node inspector</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Test Structure</h3>
+                    <ul class="command-list">
+                        <li>
+                            describe('Group', () => { })
+                            <div class="command-desc">Group related tests</div>
+                        </li>
+                        <li>
+                            it('should...', () => { })
+                            <div class="command-desc">Define a test case</div>
+                        </li>
+                        <li>
+                            test('does...', () => { })
+                            <div class="command-desc">Alternative to 'it'</div>
+                        </li>
+                        <li>
+                            beforeEach(() => { })
+                            <div class="command-desc">Run before each test</div>
+                        </li>
+                        <li>
+                            afterEach(() => { })
+                            <div class="command-desc">Run after each test</div>
+                        </li>
+                        <li>
+                            beforeAll(() => { })
+                            <div class="command-desc">Run once before all tests</div>
+                        </li>
+                        <li>
+                            afterAll(() => { })
+                            <div class="command-desc">Run once after all tests</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Test Modifiers</h3>
+                    <ul class="command-list">
+                        <li>
+                            test.skip('name', () => { })
+                            <div class="command-desc">Skip this test</div>
+                        </li>
+                        <li>
+                            test.only('name', () => { })
+                            <div class="command-desc">Run only this test</div>
+                        </li>
+                        <li>
+                            test.todo('implement later')
+                            <div class="command-desc">Placeholder for future test</div>
+                        </li>
+                        <li>
+                            test.fails('name', () => { })
+                            <div class="command-desc">Test is expected to fail</div>
+                        </li>
+                        <li>
+                            test.concurrent('name', () => { })
+                            <div class="command-desc">Run test concurrently</div>
+                        </li>
+                        <li>
+                            test.each([[1,2], [3,4]])('test %i', (a,b) => { })
+                            <div class="command-desc">Parameterized tests</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Common Matchers</h3>
+                    <ul class="command-list">
+                        <li>
+                            expect(value).toBe(expected)
+                            <div class="command-desc">Strict equality (===)</div>
+                        </li>
+                        <li>
+                            expect(value).toEqual(expected)
+                            <div class="command-desc">Deep equality</div>
+                        </li>
+                        <li>
+                            expect(value).toBeTruthy()
+                            <div class="command-desc">Truthy value</div>
+                        </li>
+                        <li>
+                            expect(value).toBeFalsy()
+                            <div class="command-desc">Falsy value</div>
+                        </li>
+                        <li>
+                            expect(value).toBeNull()
+                            <div class="command-desc">Strictly null</div>
+                        </li>
+                        <li>
+                            expect(value).toBeUndefined()
+                            <div class="command-desc">Strictly undefined</div>
+                        </li>
+                        <li>
+                            expect(value).toBeDefined()
+                            <div class="command-desc">Not undefined</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Number Matchers</h3>
+                    <ul class="command-list">
+                        <li>
+                            expect(2 + 2).toBeGreaterThan(3)
+                            <div class="command-desc">Greater than</div>
+                        </li>
+                        <li>
+                            expect(2 + 2).toBeGreaterThanOrEqual(4)
+                            <div class="command-desc">Greater than or equal</div>
+                        </li>
+                        <li>
+                            expect(2 + 2).toBeLessThan(5)
+                            <div class="command-desc">Less than</div>
+                        </li>
+                        <li>
+                            expect(2 + 2).toBeLessThanOrEqual(4)
+                            <div class="command-desc">Less than or equal</div>
+                        </li>
+                        <li>
+                            expect(0.1 + 0.2).toBeCloseTo(0.3)
+                            <div class="command-desc">Floating point equality</div>
+                        </li>
+                        <li>
+                            expect(NaN).toBeNaN()
+                            <div class="command-desc">Check for NaN</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>String & Array Matchers</h3>
+                    <ul class="command-list">
+                        <li>
+                            expect('team').toMatch(/I/)
+                            <div class="command-desc">Regex match</div>
+                        </li>
+                        <li>
+                            expect('Hello').toContain('ell')
+                            <div class="command-desc">String contains</div>
+                        </li>
+                        <li>
+                            expect(['a', 'b']).toContain('a')
+                            <div class="command-desc">Array contains</div>
+                        </li>
+                        <li>
+                            expect(['a', 'b']).toHaveLength(2)
+                            <div class="command-desc">Array/string length</div>
+                        </li>
+                        <li>
+                            expect(new Set(['a'])).toContain('a')
+                            <div class="command-desc">Set contains</div>
+                        </li>
+                        <li>
+                            expect([1, 2, 3]).toEqual(expect.arrayContaining([1, 2]))
+                            <div class="command-desc">Partial array match</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Object Matchers</h3>
+                    <ul class="command-list">
+                        <li>
+                            expect(obj).toHaveProperty('name')
+                            <div class="command-desc">Has property</div>
+                        </li>
+                        <li>
+                            expect(obj).toHaveProperty('name', 'value')
+                            <div class="command-desc">Property with value</div>
+                        </li>
+                        <li>
+                            expect(obj).toMatchObject({ name: 'John' })
+                            <div class="command-desc">Partial object match</div>
+                        </li>
+                        <li>
+                            expect(obj).toStrictEqual(expected)
+                            <div class="command-desc">Strict deep equality</div>
+                        </li>
+                        <li>
+                            expect(instance).toBeInstanceOf(Class)
+                            <div class="command-desc">Instance check</div>
+                        </li>
+                        <li>
+                            expect.objectContaining({ x: expect.any(Number) })
+                            <div class="command-desc">Flexible object matching</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Async Matchers</h3>
+                    <ul class="command-list">
+                        <li>
+                            await expect(promise).resolves.toBe(value)
+                            <div class="command-desc">Promise resolves to value</div>
+                        </li>
+                        <li>
+                            await expect(promise).rejects.toThrow()
+                            <div class="command-desc">Promise rejects</div>
+                        </li>
+                        <li>
+                            expect(async () => {}).not.toThrow()
+                            <div class="command-desc">Async function doesn't throw</div>
+                        </li>
+                        <li>
+                            await expect(fetchData()).resolves.toEqual(data)
+                            <div class="command-desc">Async function result</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Exception Matchers</h3>
+                    <ul class="command-list">
+                        <li>
+                            expect(() => fn()).toThrow()
+                            <div class="command-desc">Function throws</div>
+                        </li>
+                        <li>
+                            expect(() => fn()).toThrow('error message')
+                            <div class="command-desc">Throws with message</div>
+                        </li>
+                        <li>
+                            expect(() => fn()).toThrow(Error)
+                            <div class="command-desc">Throws specific error</div>
+                        </li>
+                        <li>
+                            expect(() => fn()).toThrowErrorMatchingSnapshot()
+                            <div class="command-desc">Error matches snapshot</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Mock Functions (vi)</h3>
+                    <ul class="command-list">
+                        <li>
+                            vi.fn()
+                            <div class="command-desc">Create mock function</div>
+                        </li>
+                        <li>
+                            vi.fn(() => 42)
+                            <div class="command-desc">Mock with implementation</div>
+                        </li>
+                        <li>
+                            vi.spyOn(object, 'method')
+                            <div class="command-desc">Spy on method</div>
+                        </li>
+                        <li>
+                            mockFn.mockReturnValue(42)
+                            <div class="command-desc">Set return value</div>
+                        </li>
+                        <li>
+                            mockFn.mockResolvedValue(42)
+                            <div class="command-desc">Async resolved value</div>
+                        </li>
+                        <li>
+                            mockFn.mockImplementation(fn)
+                            <div class="command-desc">Custom implementation</div>
+                        </li>
+                        <li>
+                            expect(mockFn).toHaveBeenCalled()
+                            <div class="command-desc">Check if called</div>
+                        </li>
+                        <li>
+                            expect(mockFn).toHaveBeenCalledWith(arg)
+                            <div class="command-desc">Called with arguments</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Module Mocking</h3>
+                    <ul class="command-list">
+                        <li>
+                            vi.mock('./module')
+                            <div class="command-desc">Auto-mock module</div>
+                        </li>
+                        <li>
+                            vi.mock('./module', () => ({ fn: vi.fn() }))
+                            <div class="command-desc">Mock with factory</div>
+                        </li>
+                        <li>
+                            vi.unmock('./module')
+                            <div class="command-desc">Remove mock</div>
+                        </li>
+                        <li>
+                            vi.resetModules()
+                            <div class="command-desc">Reset module cache</div>
+                        </li>
+                        <li>
+                            vi.importActual('./module')
+                            <div class="command-desc">Import real module</div>
+                        </li>
+                        <li>
+                            vi.mocked(importedFn)
+                            <div class="command-desc">Type-safe mock access</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Timer Mocks</h3>
+                    <ul class="command-list">
+                        <li>
+                            vi.useFakeTimers()
+                            <div class="command-desc">Use fake timers</div>
+                        </li>
+                        <li>
+                            vi.useRealTimers()
+                            <div class="command-desc">Restore real timers</div>
+                        </li>
+                        <li>
+                            vi.advanceTimersByTime(1000)
+                            <div class="command-desc">Advance by milliseconds</div>
+                        </li>
+                        <li>
+                            vi.advanceTimersToNextTimer()
+                            <div class="command-desc">Run next timer</div>
+                        </li>
+                        <li>
+                            vi.runAllTimers()
+                            <div class="command-desc">Run all timers</div>
+                        </li>
+                        <li>
+                            vi.runOnlyPendingTimers()
+                            <div class="command-desc">Run pending timers</div>
+                        </li>
+                        <li>
+                            vi.setSystemTime(new Date('2025-01-01'))
+                            <div class="command-desc">Set system time</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-section">
+            <h2>React Testing Library</h2>
+
+            <div class="cheatsheet-grid">
+                <div class="cheat-card">
+                    <h3>Rendering</h3>
+                    <ul class="command-list">
+                        <li>
+                            render(&lt;Component /&gt;)
+                            <div class="command-desc">Render component</div>
+                        </li>
+                        <li>
+                            render(&lt;Component /&gt;, { wrapper: Provider })
+                            <div class="command-desc">Render with wrapper</div>
+                        </li>
+                        <li>
+                            const { rerender } = render()
+                            <div class="command-desc">Get rerender function</div>
+                        </li>
+                        <li>
+                            const { container } = render()
+                            <div class="command-desc">Get container element</div>
+                        </li>
+                        <li>
+                            const { debug } = render()
+                            <div class="command-desc">Get debug function</div>
+                        </li>
+                        <li>
+                            cleanup()
+                            <div class="command-desc">Cleanup after test</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Query Priority (Best to Worst)</h3>
+                    <ul class="command-list">
+                        <li>
+                            getByRole('button', { name: /submit/i })
+                            <div class="command-desc">1. Accessible role</div>
+                        </li>
+                        <li>
+                            getByLabelText('Username')
+                            <div class="command-desc">2. Form labels</div>
+                        </li>
+                        <li>
+                            getByPlaceholderText('Enter name')
+                            <div class="command-desc">3. Placeholder text</div>
+                        </li>
+                        <li>
+                            getByText('Hello World')
+                            <div class="command-desc">4. Text content</div>
+                        </li>
+                        <li>
+                            getByDisplayValue('current value')
+                            <div class="command-desc">5. Form values</div>
+                        </li>
+                        <li>
+                            getByAltText('image description')
+                            <div class="command-desc">6. Image alt text</div>
+                        </li>
+                        <li>
+                            getByTitle('tooltip')
+                            <div class="command-desc">7. Title attribute</div>
+                        </li>
+                        <li>
+                            getByTestId('custom-element')
+                            <div class="command-desc">8. Test ID (last resort)</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Query Variants</h3>
+                    <ul class="command-list">
+                        <li>
+                            getBy...
+                            <div class="command-desc">Return element, throw if not found</div>
+                        </li>
+                        <li>
+                            queryBy...
+                            <div class="command-desc">Return element or null</div>
+                        </li>
+                        <li>
+                            findBy...
+                            <div class="command-desc">Return promise, wait for element</div>
+                        </li>
+                        <li>
+                            getAllBy...
+                            <div class="command-desc">Return array, throw if empty</div>
+                        </li>
+                        <li>
+                            queryAllBy...
+                            <div class="command-desc">Return array, empty if none</div>
+                        </li>
+                        <li>
+                            findAllBy...
+                            <div class="command-desc">Return promise for array</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>User Events</h3>
+                    <ul class="command-list">
+                        <li>
+                            await userEvent.click(element)
+                            <div class="command-desc">Click element</div>
+                        </li>
+                        <li>
+                            await userEvent.dblClick(element)
+                            <div class="command-desc">Double click</div>
+                        </li>
+                        <li>
+                            await userEvent.type(input, 'text')
+                            <div class="command-desc">Type into input</div>
+                        </li>
+                        <li>
+                            await userEvent.clear(input)
+                            <div class="command-desc">Clear input</div>
+                        </li>
+                        <li>
+                            await userEvent.selectOptions(select, 'option')
+                            <div class="command-desc">Select option</div>
+                        </li>
+                        <li>
+                            await userEvent.upload(input, file)
+                            <div class="command-desc">Upload file</div>
+                        </li>
+                        <li>
+                            await userEvent.tab()
+                            <div class="command-desc">Tab navigation</div>
+                        </li>
+                        <li>
+                            await userEvent.hover(element)
+                            <div class="command-desc">Hover over element</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Async Utilities</h3>
+                    <ul class="command-list">
+                        <li>
+                            await waitFor(() => expect(...))
+                            <div class="command-desc">Wait for assertion</div>
+                        </li>
+                        <li>
+                            await screen.findByText('loaded')
+                            <div class="command-desc">Wait for element</div>
+                        </li>
+                        <li>
+                            await waitForElementToBeRemoved()
+                            <div class="command-desc">Wait for removal</div>
+                        </li>
+                        <li>
+                            act(() => { /* state updates */ })
+                            <div class="command-desc">Wrap state updates</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Screen API</h3>
+                    <ul class="command-list">
+                        <li>
+                            screen.getByRole('button')
+                            <div class="command-desc">Query from screen</div>
+                        </li>
+                        <li>
+                            screen.debug()
+                            <div class="command-desc">Debug current DOM</div>
+                        </li>
+                        <li>
+                            screen.logTestingPlaygroundURL()
+                            <div class="command-desc">Get playground URL</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-section">
+            <h2>Next.js 15 Testing</h2>
+
+            <div class="cheatsheet-grid">
+                <div class="cheat-card">
+                    <h3>Setup Configuration</h3>
+                    <ul class="command-list">
+                        <li>
+                            npm install -D vitest @vitejs/plugin-react
+                            <div class="command-desc">Install dependencies</div>
+                        </li>
+                        <li>
+                            environment: 'jsdom'
+                            <div class="command-desc">Set test environment</div>
+                        </li>
+                        <li>
+                            alias: { '@/': './src/' }
+                            <div class="command-desc">Configure path aliases</div>
+                        </li>
+                        <li>
+                            setupFiles: ['./test/setup.ts']
+                            <div class="command-desc">Setup files for tests</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Mocking Next.js</h3>
+                    <ul class="command-list">
+                        <li>
+                            vi.mock('next/navigation')
+                            <div class="command-desc">Mock navigation hooks</div>
+                        </li>
+                        <li>
+                            vi.mock('next/image')
+                            <div class="command-desc">Mock Image component</div>
+                        </li>
+                        <li>
+                            vi.mock('next/link')
+                            <div class="command-desc">Mock Link component</div>
+                        </li>
+                        <li>
+                            vi.mock('server-only')
+                            <div class="command-desc">Mock server-only imports</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Server Component Testing</h3>
+                    <ul class="command-list">
+                        <li>
+                            // Test sync server components only
+                            <div class="command-desc">Async not supported in Vitest</div>
+                        </li>
+                        <li>
+                            // Extract data fetching logic
+                            <div class="command-desc">Test data functions separately</div>
+                        </li>
+                        <li>
+                            // Use E2E for async components
+                            <div class="command-desc">Playwright for full testing</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Server Actions Testing</h3>
+                    <ul class="command-list">
+                        <li>
+                            const formData = new FormData()
+                            <div class="command-desc">Create form data</div>
+                        </li>
+                        <li>
+                            await serverAction(formData)
+                            <div class="command-desc">Call server action</div>
+                        </li>
+                        <li>
+                            expect(redirect).toHaveBeenCalledWith('/success')
+                            <div class="command-desc">Test redirects</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-section">
+            <h2>Common Testing Patterns</h2>
+
+            <div class="cheatsheet-grid">
+                <div class="cheat-card">
+                    <h3>AAA Pattern</h3>
+                    <div class="code-block">
+                        <pre><code class="language-javascript">test('user can login', async () => {
+    // Arrange
+    const user = { email: 'test@example.com', password: 'password' }
+    render(&lt;LoginForm /&gt;)
+
+    // Act
+    await userEvent.type(screen.getByLabelText('Email'), user.email)
+    await userEvent.type(screen.getByLabelText('Password'), user.password)
+    await userEvent.click(screen.getByRole('button', { name: /login/i }))
+
+    // Assert
+    expect(screen.getByText('Welcome!')).toBeInTheDocument()
+})</code></pre>
+                    </div>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Test Data Factories</h3>
+                    <div class="code-block">
+                        <pre><code class="language-javascript">// test/factories/user.ts
+export function createUser(overrides = {}) {
+    return {
+        id: '1',
+        name: 'Test User',
+        email: 'test@example.com',
+        role: 'user',
+        ...overrides
+    }
+}
+
+// Usage
+const adminUser = createUser({ role: 'admin' })</code></pre>
+                    </div>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Custom Render</h3>
+                    <div class="code-block">
+                        <pre><code class="language-javascript">// test/utils.tsx
+export function renderWithProviders(ui, options = {}) {
+    return render(ui, {
+        wrapper: ({ children }) => (
+            &lt;ThemeProvider&gt;
+                &lt;QueryClient&gt;
+                    {children}
+                &lt;/QueryClient&gt;
+            &lt;/ThemeProvider&gt;
+        ),
+        ...options
+    })
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="cheat-card">
+                    <h3>Testing Hooks</h3>
+                    <div class="code-block">
+                        <pre><code class="language-javascript">import { renderHook } from '@testing-library/react'
+
+test('useCounter increments', () => {
+    const { result } = renderHook(() => useCounter())
+
+    act(() => {
+        result.current.increment()
+    })
+
+    expect(result.current.count).toBe(1)
+})</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Testing Mastery Course</p>
+                <p>Quick reference for modern testing practices</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../assets/js/main.js"></script>
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1.1: What Is Testing and Why Does It Matter? - Testing Mastery</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="lesson-container">
+        <nav class="lesson-sidebar">
+            <div class="sidebar-header">
+                <h3>Module 1</h3>
+                <div class="sidebar-progress">
+                    <span>Testing Fundamentals</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h4>Lessons</h4>
+                <a href="lesson1-1.html" class="nav-link active">1.1 What Is Testing?</a>
+                <a href="lesson1-2.html" class="nav-link">1.2 The Testing Mindset</a>
+                <a href="lesson1-3.html" class="nav-link">1.3 Testing Terminology</a>
+                <a href="lesson1-4.html" class="nav-link">1.4 Setting Up Environment</a>
+            </div>
+
+            <div class="nav-section">
+                <h4>Quick Links</h4>
+                <a href="../../index.html" class="nav-link">← Back to Dashboard</a>
+                <a href="../../resources/glossary.html" class="nav-link">Glossary</a>
+                <a href="../../resources/cheatsheet.html" class="nav-link">Cheat Sheet</a>
+            </div>
+        </nav>
+
+        <main class="lesson-main">
+            <header class="lesson-header">
+                <div class="lesson-meta">
+                    <span class="meta-tag">Module 1</span>
+                    <span class="meta-tag">45 minutes</span>
+                    <span class="meta-tag">Beginner</span>
+                </div>
+                <h1>What Is Testing and Why Does It Matter?</h1>
+                <p class="lesson-description">
+                    Discover the fundamental concepts of software testing and why it's crucial for building reliable applications. Learn about different types of testing and their real-world impact.
+                </p>
+            </header>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🤔</span>
+                    <h2>WHY - The Critical Importance of Testing</h2>
+                </div>
+
+                <p>
+                    Imagine deploying code on Friday afternoon, confident everything works perfectly. Monday morning arrives with a flood of angry customer emails - your latest change broke the checkout process, costing thousands in lost sales. This nightmare scenario is precisely what testing prevents.
+                </p>
+
+                <div class="alert alert-info">
+                    <div class="alert-title">💡 Real-World Impact</div>
+                    <p>In 2024, a major airline's untested code change grounded 5,000 flights, affecting 500,000 passengers and costing $150 million. A simple unit test could have prevented this disaster.</p>
+                </div>
+
+                <h3>The Cost of Bugs</h3>
+                <ul>
+                    <li><strong>Development Phase:</strong> $1 to fix</li>
+                    <li><strong>QA Phase:</strong> $10 to fix</li>
+                    <li><strong>Production:</strong> $100+ to fix</li>
+                    <li><strong>After Release:</strong> $1000+ (including reputation damage)</li>
+                </ul>
+
+                <p>
+                    Testing isn't just about finding bugs - it's about confidence. When you have comprehensive tests, you can refactor code, add features, and deploy updates without fear. Tests act as a safety net, catching problems before your users do.
+                </p>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">📚</span>
+                    <h2>WHAT - Understanding Software Testing</h2>
+                </div>
+
+                <h3>Definition of Testing</h3>
+                <p>
+                    Software testing is the process of evaluating and verifying that a software application or system meets specified requirements. It involves executing software components using manual or automated tools to evaluate properties of interest.
+                </p>
+
+                <h3>Types of Testing</h3>
+
+                <div class="alert alert-success">
+                    <div class="alert-title">The Testing Pyramid</div>
+                    <p>The testing pyramid is a concept that guides the distribution of different test types in your test suite:</p>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Testing Pyramid Structure</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">        /\         E2E Tests (5-10%)
+       /  \        - Slow, expensive, but comprehensive
+      /    \
+     /      \      Integration Tests (20-30%)
+    /        \     - Moderate speed and cost
+   /          \
+  /            \   Unit Tests (60-70%)
+ /______________\  - Fast, cheap, numerous</code></pre>
+                </div>
+
+                <h3>1. Unit Testing</h3>
+                <p>
+                    Unit tests verify individual components or functions in isolation. They're the foundation of your testing strategy.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Example: Testing a simple calculation function
+function calculateTax(amount, rate) {
+    return amount * rate;
+}
+
+// Unit test
+test('calculateTax returns correct tax amount', () => {
+    expect(calculateTax(100, 0.2)).toBe(20);
+    expect(calculateTax(50, 0.15)).toBe(7.5);
+});</code></pre>
+                </div>
+
+                <h3>2. Integration Testing</h3>
+                <p>
+                    Integration tests verify that different parts of your application work together correctly.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Example: Testing API endpoint with database
+test('GET /users returns users from database', async () => {
+    const response = await request(app).get('/users');
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveLength(3);
+    expect(response.body[0]).toHaveProperty('name');
+});</code></pre>
+                </div>
+
+                <h3>3. End-to-End (E2E) Testing</h3>
+                <p>
+                    E2E tests simulate real user scenarios, testing the entire application flow from start to finish.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Example: Testing user login flow
+test('User can log in and see dashboard', async () => {
+    await page.goto('https://app.example.com');
+    await page.fill('#email', 'user@example.com');
+    await page.fill('#password', 'password123');
+    await page.click('button[type="submit"]');
+
+    await expect(page).toHaveURL('/dashboard');
+    await expect(page.locator('h1')).toHaveText('Welcome back!');
+});</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🛠️</span>
+                    <h2>HOW - Getting Started with Testing</h2>
+                </div>
+
+                <h3>Step 1: Choose Your Testing Strategy</h3>
+                <p>Start with the testing pyramid as your guide:</p>
+                <ol>
+                    <li><strong>Write many unit tests</strong> - They're fast and catch most bugs</li>
+                    <li><strong>Add integration tests</strong> - For critical workflows</li>
+                    <li><strong>Include few E2E tests</strong> - For user-critical paths</li>
+                </ol>
+
+                <h3>Step 2: Select Testing Tools</h3>
+                <p>For modern JavaScript applications, we recommend:</p>
+                <ul>
+                    <li><strong>Vitest</strong> - Fast, modern test runner (our focus)</li>
+                    <li><strong>React Testing Library</strong> - Component testing</li>
+                    <li><strong>Playwright</strong> - E2E testing</li>
+                </ul>
+
+                <h3>Step 3: Write Your First Test</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// 1. Describe what you're testing
+describe('Calculator', () => {
+    // 2. Specify the behavior
+    it('should add two numbers correctly', () => {
+        // 3. Arrange - set up test data
+        const a = 5;
+        const b = 3;
+
+        // 4. Act - perform the action
+        const result = add(a, b);
+
+        // 5. Assert - check the result
+        expect(result).toBe(8);
+    });
+});</code></pre>
+                </div>
+
+                <h3>The AAA Pattern</h3>
+                <p>Always structure your tests using the AAA pattern:</p>
+                <ul>
+                    <li><strong>Arrange:</strong> Set up test data and conditions</li>
+                    <li><strong>Act:</strong> Execute the function or action being tested</li>
+                    <li><strong>Assert:</strong> Verify the outcome matches expectations</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">⏰</span>
+                    <h2>WHEN - Timing Your Testing Efforts</h2>
+                </div>
+
+                <h3>When to Write Tests</h3>
+                <ul>
+                    <li><strong>Before writing code (TDD):</strong> Write tests first, then implementation</li>
+                    <li><strong>While writing code:</strong> Test as you develop features</li>
+                    <li><strong>After writing code:</strong> Add tests for existing functionality</li>
+                    <li><strong>Before refactoring:</strong> Ensure tests exist before making changes</li>
+                    <li><strong>When bugs are found:</strong> Write tests to prevent regression</li>
+                </ul>
+
+                <h3>Testing in the Development Cycle</h3>
+                <div class="alert alert-info">
+                    <div class="alert-title">Continuous Testing</div>
+                    <p>Modern development practices integrate testing throughout:</p>
+                    <ul>
+                        <li>Local development: Run tests on file save</li>
+                        <li>Pre-commit: Run tests before committing code</li>
+                        <li>CI/CD: Run full test suite on every push</li>
+                        <li>Pre-deployment: Final test run before production</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">⚠️</span>
+                    <h2>Common Mistakes to Avoid</h2>
+                </div>
+
+                <div class="alert alert-danger">
+                    <div class="alert-title">Testing Anti-Patterns</div>
+                    <ul>
+                        <li><strong>Testing implementation details:</strong> Tests should verify behavior, not how something is implemented</li>
+                        <li><strong>100% coverage obsession:</strong> High coverage doesn't guarantee quality</li>
+                        <li><strong>Ignoring test maintenance:</strong> Tests need updates as code evolves</li>
+                        <li><strong>Only happy path testing:</strong> Test edge cases and error scenarios</li>
+                        <li><strong>Slow test suites:</strong> Keep tests fast to encourage frequent running</li>
+                    </ul>
+                </div>
+
+                <h3>Example: Testing Implementation vs Behavior</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// ❌ BAD: Testing implementation details
+test('uses forEach to process items', () => {
+    const spy = jest.spyOn(Array.prototype, 'forEach');
+    processItems([1, 2, 3]);
+    expect(spy).toHaveBeenCalled();
+});
+
+// ✅ GOOD: Testing behavior
+test('processes all items in the array', () => {
+    const result = processItems([1, 2, 3]);
+    expect(result).toEqual([2, 4, 6]); // Doubled values
+});</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">✨</span>
+                    <h2>Best Practices</h2>
+                </div>
+
+                <h3>1. Write Descriptive Test Names</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// ❌ BAD
+test('test1', () => {});
+test('works', () => {});
+
+// ✅ GOOD
+test('should return user name when valid ID is provided', () => {});
+test('should throw error when user ID is invalid', () => {});</code></pre>
+                </div>
+
+                <h3>2. Keep Tests Independent</h3>
+                <p>Each test should be able to run in isolation without depending on other tests.</p>
+
+                <h3>3. Use Test Fixtures</h3>
+                <p>Create reusable test data to maintain consistency and reduce duplication.</p>
+
+                <h3>4. Test One Thing at a Time</h3>
+                <p>Each test should verify a single behavior or outcome.</p>
+
+                <h3>5. Make Tests Deterministic</h3>
+                <p>Tests should produce the same result every time they run.</p>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🌍</span>
+                    <h2>Real-World Examples</h2>
+                </div>
+
+                <h3>Case Study: E-commerce Platform</h3>
+                <p>Let's examine how testing prevents common e-commerce failures:</p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Testing critical shopping cart functionality
+describe('Shopping Cart', () => {
+    test('should calculate correct total with tax', () => {
+        const cart = new ShoppingCart();
+        cart.addItem({ price: 100, quantity: 2 });
+        cart.addItem({ price: 50, quantity: 1 });
+        cart.setTaxRate(0.08);
+
+        expect(cart.getSubtotal()).toBe(250);
+        expect(cart.getTax()).toBe(20);
+        expect(cart.getTotal()).toBe(270);
+    });
+
+    test('should apply discount codes correctly', () => {
+        const cart = new ShoppingCart();
+        cart.addItem({ price: 100, quantity: 1 });
+        cart.applyDiscount('SAVE20'); // 20% off
+
+        expect(cart.getDiscount()).toBe(20);
+        expect(cart.getTotal()).toBe(80);
+    });
+
+    test('should handle invalid discount codes', () => {
+        const cart = new ShoppingCart();
+        cart.addItem({ price: 100, quantity: 1 });
+
+        expect(() => cart.applyDiscount('INVALID')).toThrow('Invalid discount code');
+        expect(cart.getTotal()).toBe(100);
+    });
+});</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <div class="alert-title">Impact of These Tests</div>
+                    <p>These simple tests prevent:</p>
+                    <ul>
+                        <li>Incorrect pricing calculations costing revenue</li>
+                        <li>Invalid discounts being applied</li>
+                        <li>Tax calculation errors leading to compliance issues</li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h3>Knowledge Check</h3>
+                    <p class="quiz-progress">Test your understanding of testing fundamentals</p>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>1. According to the testing pyramid, which type of test should you have the most of?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="e2e">End-to-End tests</div>
+                        <div class="quiz-option" data-answer="integration">Integration tests</div>
+                        <div class="quiz-option" data-answer="unit" data-correct="true">Unit tests</div>
+                        <div class="quiz-option" data-answer="manual">Manual tests</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>2. What does the AAA pattern stand for in testing?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">Analyze, Apply, Approve</div>
+                        <div class="quiz-option" data-answer="2" data-correct="true">Arrange, Act, Assert</div>
+                        <div class="quiz-option" data-answer="3">Automate, Accelerate, Achieve</div>
+                        <div class="quiz-option" data-answer="4">Add, Adjust, Affirm</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>3. Why is it generally more expensive to fix bugs in production?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">Developers charge more for production fixes</div>
+                        <div class="quiz-option" data-answer="2" data-correct="true">It includes user impact, data corruption risks, and emergency response costs</div>
+                        <div class="quiz-option" data-answer="3">Production servers are more expensive</div>
+                        <div class="quiz-option" data-answer="4">Testing tools cost more in production</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn btn-primary quiz-submit">Check Answers</button>
+                </div>
+                <div class="quiz-results" style="display: none;"></div>
+            </div>
+
+            <div class="exercise-container" data-exercise="1-1">
+                <div class="exercise-header">
+                    <h3>Hands-On Exercise</h3>
+                    <span class="exercise-difficulty difficulty-beginner">Beginner</span>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Task:</strong> Write your first test for a simple function that converts temperatures from Celsius to Fahrenheit.</p>
+
+                    <p>The formula is: <code>F = (C × 9/5) + 32</code></p>
+
+                    <p>Complete the test below:</p>
+                    <textarea class="exercise-editor">// Complete this test
+function celsiusToFahrenheit(celsius) {
+    // Your implementation here
+}
+
+test('converts Celsius to Fahrenheit correctly', () => {
+    // Test that 0°C = 32°F
+
+    // Test that 100°C = 212°F
+
+    // Test that -40°C = -40°F
+});</textarea>
+
+                    <div class="exercise-hint-content" style="display: none;">
+                        <p><strong>Hint:</strong> Remember to use the <code>expect().toBe()</code> assertion to check if your function returns the correct value.</p>
+                    </div>
+
+                    <div class="exercise-solution-content" style="display: none;">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">javascript</span>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <pre><code class="language-javascript">function celsiusToFahrenheit(celsius) {
+    return (celsius * 9/5) + 32;
+}
+
+test('converts Celsius to Fahrenheit correctly', () => {
+    // Test that 0°C = 32°F
+    expect(celsiusToFahrenheit(0)).toBe(32);
+
+    // Test that 100°C = 212°F
+    expect(celsiusToFahrenheit(100)).toBe(212);
+
+    // Test that -40°C = -40°F
+    expect(celsiusToFahrenheit(-40)).toBe(-40);
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-actions">
+                    <button class="btn btn-secondary exercise-hint">Show Hint</button>
+                    <button class="btn btn-secondary exercise-solution">Show Solution</button>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🎯</span>
+                    <h2>Key Takeaways</h2>
+                </div>
+
+                <div class="alert alert-success">
+                    <div class="alert-title">What You've Learned</div>
+                    <ul>
+                        <li><strong>Testing saves money:</strong> Bugs are exponentially more expensive to fix in production</li>
+                        <li><strong>Testing pyramid:</strong> Most tests should be unit tests, fewer integration, fewest E2E</li>
+                        <li><strong>Types of testing:</strong> Unit, Integration, and E2E tests serve different purposes</li>
+                        <li><strong>AAA pattern:</strong> Arrange, Act, Assert provides clear test structure</li>
+                        <li><strong>Test behavior, not implementation:</strong> Focus on what code does, not how</li>
+                        <li><strong>Testing is continuous:</strong> Integrate testing throughout development</li>
+                        <li><strong>Good tests are:</strong> Fast, independent, repeatable, and descriptive</li>
+                    </ul>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="../../index.html" class="nav-button prev">
+                    <span>← Dashboard</span>
+                </a>
+                <a href="lesson1-2.html" class="nav-button next">
+                    <span>Next: The Testing Mindset →</span>
+                </a>
+            </nav>
+        </main>
+    </div>
+
+    <script src="../../assets/js/main.js"></script>
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        // Mark lesson as complete when reaching the end
+        window.addEventListener('load', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (window.progressTracker) {
+                            window.progressTracker.markLessonComplete('1-1');
+                        }
+                    }
+                });
+            });
+
+            const takeaways = document.querySelector('.lesson-nav');
+            if (takeaways) {
+                observer.observe(takeaways);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4.3: Server Components Testing - Testing Mastery</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="lesson-container">
+        <nav class="lesson-sidebar">
+            <div class="sidebar-header">
+                <h3>Module 4</h3>
+                <div class="sidebar-progress">
+                    <span>Next.js 15 Testing</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h4>Lessons</h4>
+                <a href="lesson4-1.html" class="nav-link">4.1 Next.js Testing Setup</a>
+                <a href="lesson4-2.html" class="nav-link">4.2 App Router Testing</a>
+                <a href="lesson4-3.html" class="nav-link active">4.3 Server Components Testing</a>
+                <a href="lesson4-4.html" class="nav-link">4.4 Server Actions Testing</a>
+                <a href="lesson4-5.html" class="nav-link">4.5 Production Testing</a>
+            </div>
+
+            <div class="nav-section">
+                <h4>Quick Links</h4>
+                <a href="../../index.html" class="nav-link">← Back to Dashboard</a>
+                <a href="../../resources/glossary.html" class="nav-link">Glossary</a>
+                <a href="../../resources/cheatsheet.html" class="nav-link">Cheat Sheet</a>
+            </div>
+        </nav>
+
+        <main class="lesson-main">
+            <header class="lesson-header">
+                <div class="lesson-meta">
+                    <span class="meta-tag">Module 4</span>
+                    <span class="meta-tag">120 minutes</span>
+                    <span class="meta-tag">Advanced</span>
+                </div>
+                <h1>Server Components Testing</h1>
+                <p class="lesson-description">
+                    Master the art of testing Next.js 15 Server Components, including async data fetching, streaming, and the unique challenges of server-side rendering.
+                </p>
+            </header>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🚀</span>
+                    <h2>WHY - The Server Component Revolution</h2>
+                </div>
+
+                <p>
+                    Next.js 15's Server Components represent a paradigm shift in React development. They run on the server, fetch data directly, and stream HTML to the client. This creates unique testing challenges that traditional React testing approaches can't handle.
+                </p>
+
+                <div class="alert alert-info">
+                    <div class="alert-title">💡 Server Components Benefits & Challenges</div>
+                    <p><strong>Benefits:</strong></p>
+                    <ul>
+                        <li>Zero client-side JavaScript for static content</li>
+                        <li>Direct database access without API routes</li>
+                        <li>Automatic code splitting and streaming</li>
+                    </ul>
+                    <p><strong>Testing Challenges:</strong></p>
+                    <ul>
+                        <li>Async components not supported in test environments</li>
+                        <li>Server-only code can't run in jsdom</li>
+                        <li>Data fetching happens at build/request time</li>
+                    </ul>
+                </div>
+
+                <h3>Current Testing Landscape (2025)</h3>
+                <p>
+                    As of 2025, testing Server Components requires a hybrid approach:
+                </p>
+                <ul>
+                    <li><strong>Unit Tests:</strong> Test synchronous Server Components with Vitest</li>
+                    <li><strong>Integration Tests:</strong> Test data fetching logic separately</li>
+                    <li><strong>E2E Tests:</strong> Test async Server Components with Playwright</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">📚</span>
+                    <h2>WHAT - Understanding Server Components</h2>
+                </div>
+
+                <h3>Server Component Architecture</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// app/dashboard/page.tsx - Server Component
+import { db } from '@/lib/db'
+
+// This runs on the server only
+async function DashboardPage() {
+    // Direct database access - no API needed
+    const user = await db.user.findUnique({
+        where: { id: currentUser.id }
+    })
+
+    const stats = await db.stats.aggregate({
+        _sum: { revenue: true },
+        where: { userId: user.id }
+    })
+
+    // Component renders on server, sends HTML
+    return (
+        <div>
+            <h1>Welcome, {user.name}</h1>
+            <StatsCard revenue={stats._sum.revenue} />
+            <ClientInteractiveWidget userId={user.id} />
+        </div>
+    )
+}</code></pre>
+                </div>
+
+                <h3>Server vs Client Components</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                    <thead>
+                        <tr style="background-color: var(--bg-tertiary);">
+                            <th style="padding: 0.75rem; text-align: left;">Feature</th>
+                            <th style="padding: 0.75rem; text-align: left;">Server Component</th>
+                            <th style="padding: 0.75rem; text-align: left;">Client Component</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">Data Fetching</td>
+                            <td style="padding: 0.75rem;">Direct DB/API access</td>
+                            <td style="padding: 0.75rem;">Via fetch/hooks</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">JavaScript Bundle</td>
+                            <td style="padding: 0.75rem;">Not sent to client</td>
+                            <td style="padding: 0.75rem;">Included in bundle</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">Async Support</td>
+                            <td style="padding: 0.75rem;">✅ Native async</td>
+                            <td style="padding: 0.75rem;">❌ Must use hooks</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">Testing with Vitest</td>
+                            <td style="padding: 0.75rem;">⚠️ Limited (sync only)</td>
+                            <td style="padding: 0.75rem;">✅ Full support</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Testing Limitations</h3>
+                <div class="alert alert-warning">
+                    <div class="alert-title">Current Vitest Limitations</div>
+                    <ul>
+                        <li>Cannot test async Server Components directly</li>
+                        <li>No support for React.use() or streaming</li>
+                        <li>Server-only modules fail in jsdom environment</li>
+                        <li>Cache and revalidation testing is complex</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🛠️</span>
+                    <h2>HOW - Testing Strategies for Server Components</h2>
+                </div>
+
+                <h3>Strategy 1: Test Synchronous Server Components</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// components/UserCard.tsx - Synchronous Server Component
+export function UserCard({ user }: { user: User }) {
+    return (
+        <div className="user-card">
+            <h2>{user.name}</h2>
+            <p>{user.email}</p>
+            <span className="role">{user.role}</span>
+        </div>
+    )
+}
+
+// components/UserCard.test.tsx
+import { render, screen } from '@testing-library/react'
+import { UserCard } from './UserCard'
+
+describe('UserCard Server Component', () => {
+    it('renders user information', () => {
+        const mockUser = {
+            id: '1',
+            name: 'John Doe',
+            email: 'john@example.com',
+            role: 'Admin'
+        }
+
+        render(<UserCard user={mockUser} />)
+
+        expect(screen.getByText('John Doe')).toBeInTheDocument()
+        expect(screen.getByText('john@example.com')).toBeInTheDocument()
+        expect(screen.getByText('Admin')).toBeInTheDocument()
+    })
+})</code></pre>
+                </div>
+
+                <h3>Strategy 2: Extract and Test Data Fetching Logic</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// lib/data/user.ts - Data fetching logic
+import { db } from '@/lib/db'
+import { cache } from 'react'
+
+export const getUser = cache(async (id: string) => {
+    const user = await db.user.findUnique({
+        where: { id },
+        include: {
+            profile: true,
+            posts: { take: 5, orderBy: { createdAt: 'desc' } }
+        }
+    })
+
+    if (!user) {
+        throw new Error('User not found')
+    }
+
+    return user
+})
+
+// lib/data/user.test.ts
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { getUser } from './user'
+import { db } from '@/lib/db'
+
+vi.mock('@/lib/db', () => ({
+    db: {
+        user: {
+            findUnique: vi.fn()
+        }
+    }
+}))
+
+describe('getUser data fetching', () => {
+    beforeEach(() => {
+        vi.clearAllMocks()
+    })
+
+    it('fetches user with profile and posts', async () => {
+        const mockUser = {
+            id: '1',
+            name: 'Test User',
+            profile: { bio: 'Test bio' },
+            posts: [{ id: 'p1', title: 'Post 1' }]
+        }
+
+        db.user.findUnique.mockResolvedValue(mockUser)
+
+        const result = await getUser('1')
+
+        expect(db.user.findUnique).toHaveBeenCalledWith({
+            where: { id: '1' },
+            include: {
+                profile: true,
+                posts: { take: 5, orderBy: { createdAt: 'desc' } }
+            }
+        })
+        expect(result).toEqual(mockUser)
+    })
+
+    it('throws when user not found', async () => {
+        db.user.findUnique.mockResolvedValue(null)
+
+        await expect(getUser('999')).rejects.toThrow('User not found')
+    })
+})</code></pre>
+                </div>
+
+                <h3>Strategy 3: Component + Data Integration Testing</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// app/users/[id]/UserProfile.tsx - Async Server Component
+import { getUser } from '@/lib/data/user'
+
+export async function UserProfile({ userId }: { userId: string }) {
+    const user = await getUser(userId)
+
+    return (
+        <div>
+            <h1>{user.name}</h1>
+            <p>{user.profile.bio}</p>
+            <PostsList posts={user.posts} />
+        </div>
+    )
+}
+
+// app/users/[id]/UserProfile.integration.test.tsx
+import { render, screen } from '@testing-library/react'
+import { UserProfile } from './UserProfile'
+
+// Convert async component to sync for testing
+function TestableUserProfile({ userData }) {
+    // Simulate the rendered output of the async component
+    return (
+        <div>
+            <h1>{userData.name}</h1>
+            <p>{userData.profile.bio}</p>
+            <PostsList posts={userData.posts} />
+        </div>
+    )
+}
+
+describe('UserProfile Integration', () => {
+    it('renders user data correctly', async () => {
+        // Test data fetching separately
+        const userData = await getUser('test-id')
+
+        // Test rendering with fetched data
+        render(<TestableUserProfile userData={userData} />)
+
+        expect(screen.getByRole('heading')).toHaveTextContent(userData.name)
+        expect(screen.getByText(userData.profile.bio)).toBeInTheDocument()
+    })
+})</code></pre>
+                </div>
+
+                <h3>Strategy 4: Mock Server-Only Modules</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// vitest.config.ts - Configure mocks for server modules
+export default defineConfig({
+    test: {
+        alias: {
+            // Mock server-only modules
+            'server-only': resolve(__dirname, './test/mocks/server-only.js'),
+            '@/lib/db': resolve(__dirname, './test/mocks/db.js'),
+        },
+        setupFiles: ['./test/setup.ts'],
+    }
+})
+
+// test/mocks/server-only.js
+export default {}
+
+// test/mocks/db.js
+export const db = {
+    user: {
+        findUnique: vi.fn(),
+        findMany: vi.fn(),
+        create: vi.fn(),
+        update: vi.fn(),
+        delete: vi.fn(),
+    },
+    // Add other models as needed
+}
+
+// Now you can test components that import server-only modules
+import 'server-only' // Won't throw in tests
+
+export async function ServerOnlyComponent() {
+    // Component code
+}</code></pre>
+                </div>
+
+                <h3>Strategy 5: E2E Testing for Async Components</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// e2e/server-components.spec.ts - Playwright test
+import { test, expect } from '@playwright/test'
+
+test.describe('Server Components E2E', () => {
+    test('async server component loads user data', async ({ page }) => {
+        // Navigate to page with async server component
+        await page.goto('/users/123')
+
+        // Wait for server component to render
+        await expect(page.getByRole('heading', { level: 1 }))
+            .toContainText('John Doe')
+
+        // Verify data fetched from database
+        await expect(page.getByText('Software Engineer'))
+            .toBeVisible()
+
+        // Check nested async components
+        await expect(page.getByTestId('recent-posts'))
+            .toContainText('5 recent posts')
+    })
+
+    test('handles loading and error states', async ({ page }) => {
+        // Test loading UI
+        await page.goto('/users/slow-loading')
+        await expect(page.getByText('Loading user...')).toBeVisible()
+
+        // Test error boundary
+        await page.goto('/users/invalid')
+        await expect(page.getByText('User not found')).toBeVisible()
+    })
+
+    test('streaming server components', async ({ page }) => {
+        await page.goto('/dashboard')
+
+        // Initial content streams immediately
+        await expect(page.getByText('Dashboard')).toBeVisible()
+
+        // Slower data streams in progressively
+        await expect(page.getByTestId('stats-skeleton')).toBeVisible()
+        await expect(page.getByTestId('revenue-chart'))
+            .toBeVisible({ timeout: 5000 })
+    })
+})</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">⏰</span>
+                    <h2>WHEN - Choosing the Right Testing Approach</h2>
+                </div>
+
+                <h3>Decision Tree for Server Component Testing</h3>
+                <div class="alert alert-info">
+                    <div class="alert-title">Testing Strategy Selection</div>
+                    <ul>
+                        <li><strong>Synchronous rendering logic?</strong> → Unit test with Vitest</li>
+                        <li><strong>Async data fetching?</strong> → Extract and test separately</li>
+                        <li><strong>Complex user flows?</strong> → E2E test with Playwright</li>
+                        <li><strong>Client/Server interaction?</strong> → Integration tests</li>
+                        <li><strong>Performance critical?</strong> → Load testing + monitoring</li>
+                    </ul>
+                </div>
+
+                <h3>Testing Timeline</h3>
+                <ul>
+                    <li><strong>During Development:</strong> Unit test sync components and data logic</li>
+                    <li><strong>Pre-commit:</strong> Run fast unit tests</li>
+                    <li><strong>CI Pipeline:</strong> Run all unit + integration tests</li>
+                    <li><strong>Pre-deployment:</strong> Full E2E suite including async components</li>
+                    <li><strong>Production:</strong> Monitor real user metrics</li>
+                </ul>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">⚠️</span>
+                    <h2>Common Mistakes to Avoid</h2>
+                </div>
+
+                <div class="alert alert-danger">
+                    <div class="alert-title">Server Component Testing Pitfalls</div>
+                    <ul>
+                        <li><strong>Testing async components directly:</strong> Will fail with "async components not supported"</li>
+                        <li><strong>Importing server-only in tests:</strong> Causes module resolution errors</li>
+                        <li><strong>Testing implementation details:</strong> Focus on output, not server internals</li>
+                        <li><strong>Ignoring error boundaries:</strong> Server errors need proper handling</li>
+                        <li><strong>Over-mocking:</strong> Too many mocks reduce test confidence</li>
+                    </ul>
+                </div>
+
+                <h3>Example: Common Errors and Solutions</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// ❌ WRONG: Testing async component directly
+test('async component', async () => {
+    render(await <AsyncServerComponent />) // ERROR!
+})
+
+// ✅ CORRECT: Test data and rendering separately
+test('component with data', async () => {
+    const data = await fetchData()
+    render(<SyncComponent data={data} />)
+})
+
+// ❌ WRONG: Server-only import in test
+import 'server-only' // ERROR in test environment
+import { ServerComponent } from './ServerComponent'
+
+// ✅ CORRECT: Mock server-only modules
+// In vitest.config.ts
+alias: {
+    'server-only': './test/mocks/server-only.js'
+}
+
+// ❌ WRONG: Testing React Server Component hooks
+test('uses cache correctly', () => {
+    const result = cache(fetchData) // ERROR: cache not available
+})
+
+// ✅ CORRECT: Test the actual data function
+test('fetchData returns correct data', async () => {
+    const result = await fetchData()
+    expect(result).toMatchObject({ ... })
+})</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">✨</span>
+                    <h2>Best Practices</h2>
+                </div>
+
+                <h3>1. Separate Concerns</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Separate data, logic, and presentation
+// data/users.ts - Testable data layer
+export async function getUserData(id: string) { ... }
+
+// components/UserDisplay.tsx - Testable presentation
+export function UserDisplay({ user }) { ... }
+
+// app/users/page.tsx - Composed server component
+export default async function UserPage() {
+    const user = await getUserData(id)
+    return <UserDisplay user={user} />
+}</code></pre>
+                </div>
+
+                <h3>2. Use Test Utilities</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// test/utils/server-component.ts
+export function makeTestableServerComponent(
+    asyncComponent: () => Promise<JSX.Element>,
+    mockData: any
+) {
+    return function TestableComponent() {
+        // Simulate server component with mock data
+        return asyncComponent.call(null, mockData)
+    }
+}
+
+// Usage in tests
+const TestableProfile = makeTestableServerComponent(
+    UserProfile,
+    { userId: 'test-123' }
+)</code></pre>
+                </div>
+
+                <h3>3. Mock at the Right Level</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Mock data sources, not React
+vi.mock('@/lib/db', () => ({
+    db: createMockDb() // Mock database
+}))
+
+// Don't mock React Server Components
+// ❌ vi.mock('react', () => ({ ... }))
+
+// Mock external services
+vi.mock('@/lib/api/external', () => ({
+    fetchExternalData: vi.fn()
+}))</code></pre>
+                </div>
+
+                <h3>4. Test Error Scenarios</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Test error boundaries and error handling
+describe('Server Component Errors', () => {
+    it('handles database errors gracefully', async () => {
+        db.user.findUnique.mockRejectedValue(
+            new Error('Database connection failed')
+        )
+
+        // Test that error is handled
+        await expect(getUserData('123'))
+            .rejects.toThrow('Database connection failed')
+    })
+
+    it('shows error UI for failed data fetch', () => {
+        render(
+            <ErrorBoundary fallback={<ErrorUI />}>
+                <UserDisplay user={null} />
+            </ErrorBoundary>
+        )
+
+        expect(screen.getByText('Error loading user')).toBeInTheDocument()
+    })
+})</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🌍</span>
+                    <h2>Real-World Example: E-Commerce Product Page</h2>
+                </div>
+
+                <h3>Complete Server Component Testing Suite</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// app/products/[id]/page.tsx - Server Component
+import { getProduct, getReviews, getRelatedProducts } from '@/lib/data'
+import { ProductDisplay } from '@/components/ProductDisplay'
+import { ReviewsList } from '@/components/ReviewsList'
+
+export default async function ProductPage({
+    params
+}: {
+    params: { id: string }
+}) {
+    // Parallel data fetching
+    const [product, reviews, related] = await Promise.all([
+        getProduct(params.id),
+        getReviews(params.id),
+        getRelatedProducts(params.id)
+    ])
+
+    if (!product) {
+        notFound()
+    }
+
+    return (
+        <>
+            <ProductDisplay product={product} />
+            <ReviewsList reviews={reviews} />
+            <RelatedProducts products={related} />
+        </>
+    )
+}
+
+// lib/data/products.test.ts - Test data layer
+describe('Product Data Fetching', () => {
+    it('fetches product with all details', async () => {
+        const mockProduct = {
+            id: '1',
+            name: 'Test Product',
+            price: 99.99,
+            inventory: 10
+        }
+
+        db.product.findUnique.mockResolvedValue(mockProduct)
+        const result = await getProduct('1')
+
+        expect(result).toEqual(mockProduct)
+        expect(db.product.findUnique).toHaveBeenCalledWith({
+            where: { id: '1' },
+            include: { category: true, images: true }
+        })
+    })
+
+    it('handles out of stock products', async () => {
+        const outOfStock = { ...mockProduct, inventory: 0 }
+        db.product.findUnique.mockResolvedValue(outOfStock)
+
+        const result = await getProduct('1')
+        expect(result.isAvailable).toBe(false)
+    })
+})
+
+// components/ProductDisplay.test.tsx - Test presentation
+describe('ProductDisplay Component', () => {
+    const mockProduct = {
+        id: '1',
+        name: 'Premium Widget',
+        price: 149.99,
+        description: 'High-quality widget',
+        images: [{ url: '/img1.jpg', alt: 'Product' }],
+        inventory: 5,
+        isAvailable: true
+    }
+
+    it('renders product information', () => {
+        render(<ProductDisplay product={mockProduct} />)
+
+        expect(screen.getByText('Premium Widget')).toBeInTheDocument()
+        expect(screen.getByText('$149.99')).toBeInTheDocument()
+        expect(screen.getByText('High-quality widget')).toBeInTheDocument()
+        expect(screen.getByText('5 in stock')).toBeInTheDocument()
+    })
+
+    it('shows out of stock message', () => {
+        const outOfStock = { ...mockProduct, inventory: 0, isAvailable: false }
+        render(<ProductDisplay product={outOfStock} />)
+
+        expect(screen.getByText('Out of Stock')).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: /add to cart/i }))
+            .toBeDisabled()
+    })
+})
+
+// e2e/product-page.spec.ts - E2E test for async flow
+test('Product page server component flow', async ({ page }) => {
+    // Test complete user journey
+    await page.goto('/products/premium-widget')
+
+    // Server component renders product
+    await expect(page.getByRole('heading', { name: 'Premium Widget' }))
+        .toBeVisible()
+
+    // Price is displayed
+    await expect(page.getByText('$149.99')).toBeVisible()
+
+    // Reviews loaded async
+    await expect(page.getByTestId('reviews-section'))
+        .toContainText('Customer Reviews')
+
+    // Related products streamed in
+    await expect(page.getByTestId('related-products'))
+        .toBeVisible({ timeout: 3000 })
+
+    // Interactive client components work
+    await page.getByRole('button', { name: 'Add to Cart' }).click()
+    await expect(page.getByText('Added to cart!')).toBeVisible()
+})</code></pre>
+                </div>
+            </section>
+
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h3>Knowledge Check</h3>
+                    <p class="quiz-progress">Test your Server Components testing knowledge</p>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>1. What is the current limitation of testing async Server Components with Vitest?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">They run too slowly</div>
+                        <div class="quiz-option" data-answer="2" data-correct="true">Async components are not supported in test environments</div>
+                        <div class="quiz-option" data-answer="3">They require special configuration</div>
+                        <div class="quiz-option" data-answer="4">They don't work with TypeScript</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>2. What's the recommended approach for testing async Server Components?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">Don't test them at all</div>
+                        <div class="quiz-option" data-answer="2">Only use unit tests</div>
+                        <div class="quiz-option" data-answer="3" data-correct="true">Test data fetching separately and use E2E for full flow</div>
+                        <div class="quiz-option" data-answer="4">Convert them all to Client Components</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>3. How should you handle 'server-only' imports in tests?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">Import them directly</div>
+                        <div class="quiz-option" data-answer="2">Remove them from components</div>
+                        <div class="quiz-option" data-answer="3" data-correct="true">Mock them in vitest config aliases</div>
+                        <div class="quiz-option" data-answer="4">Use a different test runner</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn btn-primary quiz-submit">Check Answers</button>
+                </div>
+                <div class="quiz-results" style="display: none;"></div>
+            </div>
+
+            <div class="exercise-container" data-exercise="4-3">
+                <div class="exercise-header">
+                    <h3>Hands-On Exercise</h3>
+                    <span class="exercise-difficulty difficulty-advanced">Advanced</span>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Task:</strong> Create a testing strategy for a Server Component that fetches and displays user posts.</p>
+
+                    <p>Given this Server Component, write tests for each layer:</p>
+                    <textarea class="exercise-editor" rows="30">// app/posts/page.tsx
+async function PostsPage() {
+    const posts = await getPosts()
+    return <PostsList posts={posts} />
+}
+
+// Write tests for:
+// 1. Data fetching function (getPosts)
+// 2. Presentation component (PostsList)
+// 3. Integration test combining both
+
+// lib/data/posts.ts
+export async function getPosts() {
+    // Your implementation
+}
+
+// lib/data/posts.test.ts
+describe('getPosts', () => {
+    // Your tests here
+})
+
+// components/PostsList.tsx
+export function PostsList({ posts }) {
+    // Your implementation
+}
+
+// components/PostsList.test.tsx
+describe('PostsList', () => {
+    // Your tests here
+})</textarea>
+
+                    <div class="exercise-solution-content" style="display: none;">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">javascript</span>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <pre><code class="language-javascript">// lib/data/posts.ts
+import { db } from '@/lib/db'
+
+export async function getPosts() {
+    const posts = await db.post.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+        include: {
+            author: true,
+            _count: { select: { comments: true } }
+        }
+    })
+    return posts
+}
+
+// lib/data/posts.test.ts
+import { describe, it, expect, vi } from 'vitest'
+import { getPosts } from './posts'
+import { db } from '@/lib/db'
+
+vi.mock('@/lib/db', () => ({
+    db: {
+        post: {
+            findMany: vi.fn()
+        }
+    }
+}))
+
+describe('getPosts', () => {
+    it('fetches posts with author and comment count', async () => {
+        const mockPosts = [
+            {
+                id: '1',
+                title: 'Test Post',
+                author: { name: 'John' },
+                _count: { comments: 5 }
+            }
+        ]
+
+        db.post.findMany.mockResolvedValue(mockPosts)
+        const result = await getPosts()
+
+        expect(db.post.findMany).toHaveBeenCalledWith({
+            orderBy: { createdAt: 'desc' },
+            take: 10,
+            include: {
+                author: true,
+                _count: { select: { comments: true } }
+            }
+        })
+        expect(result).toEqual(mockPosts)
+    })
+})
+
+// components/PostsList.tsx
+export function PostsList({ posts }) {
+    if (posts.length === 0) {
+        return <p>No posts yet</p>
+    }
+
+    return (
+        <div className="posts-list">
+            {posts.map(post => (
+                <article key={post.id}>
+                    <h2>{post.title}</h2>
+                    <p>By {post.author.name}</p>
+                    <span>{post._count.comments} comments</span>
+                </article>
+            ))}
+        </div>
+    )
+}
+
+// components/PostsList.test.tsx
+import { render, screen } from '@testing-library/react'
+import { PostsList } from './PostsList'
+
+describe('PostsList', () => {
+    it('renders posts with author and comments', () => {
+        const mockPosts = [
+            {
+                id: '1',
+                title: 'First Post',
+                author: { name: 'Alice' },
+                _count: { comments: 3 }
+            },
+            {
+                id: '2',
+                title: 'Second Post',
+                author: { name: 'Bob' },
+                _count: { comments: 7 }
+            }
+        ]
+
+        render(<PostsList posts={mockPosts} />)
+
+        expect(screen.getByText('First Post')).toBeInTheDocument()
+        expect(screen.getByText('By Alice')).toBeInTheDocument()
+        expect(screen.getByText('3 comments')).toBeInTheDocument()
+
+        expect(screen.getByText('Second Post')).toBeInTheDocument()
+        expect(screen.getByText('By Bob')).toBeInTheDocument()
+        expect(screen.getByText('7 comments')).toBeInTheDocument()
+    })
+
+    it('shows empty state when no posts', () => {
+        render(<PostsList posts={[]} />)
+        expect(screen.getByText('No posts yet')).toBeInTheDocument()
+    })
+})</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-actions">
+                    <button class="btn btn-secondary exercise-solution">Show Solution</button>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🎯</span>
+                    <h2>Key Takeaways</h2>
+                </div>
+
+                <div class="alert alert-success">
+                    <div class="alert-title">What You've Learned</div>
+                    <ul>
+                        <li><strong>Server Component Limitations:</strong> Async components can't be tested directly with Vitest</li>
+                        <li><strong>Testing Strategies:</strong> Separate data, logic, and presentation for testability</li>
+                        <li><strong>Sync Components:</strong> Test synchronous Server Components normally</li>
+                        <li><strong>Data Layer Testing:</strong> Extract and test data fetching functions</li>
+                        <li><strong>Mock Server Modules:</strong> Configure aliases for server-only imports</li>
+                        <li><strong>E2E for Async:</strong> Use Playwright for full async component testing</li>
+                        <li><strong>Error Handling:</strong> Test error boundaries and failure scenarios</li>
+                        <li><strong>Best Practices:</strong> Mock at the right level, test behavior not implementation</li>
+                    </ul>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="lesson4-2.html" class="nav-button prev">
+                    <span>← Previous: App Router Testing</span>
+                </a>
+                <a href="lesson4-4.html" class="nav-button next">
+                    <span>Next: Server Actions Testing →</span>
+                </a>
+            </nav>
+        </main>
+    </div>
+
+    <script src="../../assets/js/main.js"></script>
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        // Mark lesson as complete when reaching the end
+        window.addEventListener('load', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (window.progressTracker) {
+                            window.progressTracker.markLessonComplete('4-3');
+                        }
+                    }
+                });
+            });
+
+            const takeaways = document.querySelector('.lesson-nav');
+            if (takeaways) {
+                observer.observe(takeaways);
+            }
+        });
+    </script>
+</body>
+</html>

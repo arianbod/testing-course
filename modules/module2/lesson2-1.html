@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2.1: Introduction to Vitest - Testing Mastery</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="lesson-container">
+        <nav class="lesson-sidebar">
+            <div class="sidebar-header">
+                <h3>Module 2</h3>
+                <div class="sidebar-progress">
+                    <span>JavaScript Testing with Vitest</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <h4>Lessons</h4>
+                <a href="lesson2-1.html" class="nav-link active">2.1 Introduction to Vitest</a>
+                <a href="lesson2-2.html" class="nav-link">2.2 Writing Your First Tests</a>
+                <a href="lesson2-3.html" class="nav-link">2.3 Advanced Assertions</a>
+                <a href="lesson2-4.html" class="nav-link">2.4 Mocking and Stubbing</a>
+                <a href="lesson2-5.html" class="nav-link">2.5 Best Practices</a>
+            </div>
+
+            <div class="nav-section">
+                <h4>Quick Links</h4>
+                <a href="../../index.html" class="nav-link">← Back to Dashboard</a>
+                <a href="../../resources/glossary.html" class="nav-link">Glossary</a>
+                <a href="../../resources/cheatsheet.html" class="nav-link">Cheat Sheet</a>
+            </div>
+        </nav>
+
+        <main class="lesson-main">
+            <header class="lesson-header">
+                <div class="lesson-meta">
+                    <span class="meta-tag">Module 2</span>
+                    <span class="meta-tag">60 minutes</span>
+                    <span class="meta-tag">Intermediate</span>
+                </div>
+                <h1>Introduction to Vitest</h1>
+                <p class="lesson-description">
+                    Master Vitest, the blazing-fast unit testing framework powered by Vite. Learn why it's the future of JavaScript testing and how to leverage its powerful features.
+                </p>
+            </header>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🚀</span>
+                    <h2>WHY - The Vitest Revolution</h2>
+                </div>
+
+                <p>
+                    In 2025, Vitest has emerged as the go-to testing framework for modern JavaScript applications. While Jest served us well for years, Vitest addresses its pain points with lightning-fast performance and zero-config setup.
+                </p>
+
+                <div class="alert alert-info">
+                    <div class="alert-title">⚡ Performance Comparison</div>
+                    <p>Real-world benchmarks show Vitest runs 2-5x faster than Jest:</p>
+                    <ul>
+                        <li>Jest: 45 seconds for 500 tests</li>
+                        <li>Vitest: 12 seconds for the same tests</li>
+                        <li>With HMR: Vitest re-runs affected tests in milliseconds</li>
+                    </ul>
+                </div>
+
+                <h3>Key Advantages of Vitest</h3>
+                <ul>
+                    <li><strong>Native ESM Support:</strong> No more configuration nightmares with ES modules</li>
+                    <li><strong>Vite Integration:</strong> Shares config and plugins with your Vite app</li>
+                    <li><strong>TypeScript/JSX:</strong> Works out-of-the-box without Babel</li>
+                    <li><strong>Watch Mode with HMR:</strong> Instant feedback on code changes</li>
+                    <li><strong>Jest Compatible:</strong> 85-90% of Jest tests work without changes</li>
+                    <li><strong>Built-in UI:</strong> Beautiful dashboard for visual test management</li>
+                </ul>
+
+                <h3>Migration Success Story</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript"># Before: Jest setup (multiple config files, slow runs)
+npm test # 45s for full suite
+# Config: jest.config.js, babel.config.js, setupTests.js
+
+# After: Vitest (single config, blazing fast)
+npm test # 12s for full suite
+# Config: just vitest.config.ts!</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">📚</span>
+                    <h2>WHAT - Understanding Vitest Architecture</h2>
+                </div>
+
+                <h3>Core Concepts</h3>
+                <p>
+                    Vitest is built on top of Vite, leveraging its powerful features for testing:
+                </p>
+
+                <div class="alert alert-success">
+                    <div class="alert-title">Architecture Overview</div>
+                    <ul>
+                        <li><strong>Vite Core:</strong> Handles module resolution and transformation</li>
+                        <li><strong>Test Runner:</strong> Executes tests in parallel using worker threads</li>
+                        <li><strong>Assertion Library:</strong> Chai + Jest-compatible expect API</li>
+                        <li><strong>Mocking System:</strong> Powerful mocking with automatic hoisting</li>
+                        <li><strong>Coverage:</strong> Built-in coverage with c8 or istanbul</li>
+                    </ul>
+                </div>
+
+                <h3>Vitest vs Jest Feature Comparison</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                    <thead>
+                        <tr style="background-color: var(--bg-tertiary);">
+                            <th style="padding: 0.75rem; text-align: left;">Feature</th>
+                            <th style="padding: 0.75rem; text-align: left;">Vitest</th>
+                            <th style="padding: 0.75rem; text-align: left;">Jest</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">ESM Support</td>
+                            <td style="padding: 0.75rem; color: var(--success);">✅ Native</td>
+                            <td style="padding: 0.75rem; color: var(--warning);">⚠️ Experimental</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">TypeScript</td>
+                            <td style="padding: 0.75rem; color: var(--success);">✅ Out-of-box</td>
+                            <td style="padding: 0.75rem; color: var(--warning);">⚠️ Needs config</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">Speed</td>
+                            <td style="padding: 0.75rem; color: var(--success);">✅ Very Fast</td>
+                            <td style="padding: 0.75rem; color: var(--warning);">⚠️ Slower</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">HMR in Tests</td>
+                            <td style="padding: 0.75rem; color: var(--success);">✅ Yes</td>
+                            <td style="padding: 0.75rem; color: var(--danger);">❌ No</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <td style="padding: 0.75rem;">UI Dashboard</td>
+                            <td style="padding: 0.75rem; color: var(--success);">✅ Built-in</td>
+                            <td style="padding: 0.75rem; color: var(--danger);">❌ Third-party</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Test Execution Modes</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Vitest supports multiple execution strategies
+
+// 1. Default: Run tests in Node.js with worker threads
+// Fast and efficient for most tests
+
+// 2. Browser Mode: Run tests in real browsers
+// Perfect for DOM-heavy tests
+
+// 3. Type Testing: Check TypeScript types
+// Ensure type safety without runtime
+
+// vitest.config.ts
+export default defineConfig({
+    test: {
+        // Choose your execution environment
+        environment: 'node',      // Default: for logic tests
+        // environment: 'jsdom',   // For DOM tests
+        // environment: 'happy-dom', // Lighter alternative
+        // browser: true,          // Real browser testing
+
+        // Parallel execution
+        threads: true,  // Use worker threads (faster)
+        // isolate: true, // Isolate tests for safety
+    }
+});</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🛠️</span>
+                    <h2>HOW - Setting Up Vitest</h2>
+                </div>
+
+                <h3>Step 1: Installation</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript"># For a new project
+npm create vite@latest my-app
+cd my-app
+npm install -D vitest
+
+# For an existing project
+npm install -D vitest @vitest/ui
+
+# Optional: testing utilities
+npm install -D @testing-library/dom @testing-library/user-event</code></pre>
+                </div>
+
+                <h3>Step 2: Configuration</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// vitest.config.ts
+import { defineConfig } from 'vitest/config'
+import { resolve } from 'path'
+
+export default defineConfig({
+    test: {
+        // Enable Jest-like globals (describe, it, expect)
+        globals: true,
+
+        // Test environment
+        environment: 'jsdom',
+
+        // Setup files
+        setupFiles: ['./src/test/setup.ts'],
+
+        // Coverage configuration
+        coverage: {
+            provider: 'v8',
+            reporter: ['text', 'json', 'html'],
+            exclude: [
+                'node_modules/',
+                'src/test/',
+            ],
+        },
+
+        // Include/exclude patterns
+        include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+        exclude: ['node_modules', 'dist', '.idea', '.git', '.cache'],
+
+        // Aliases (match your app config)
+        alias: {
+            '@': resolve(__dirname, './src'),
+            '@components': resolve(__dirname, './src/components'),
+        },
+    },
+})</code></pre>
+                </div>
+
+                <h3>Step 3: Package.json Scripts</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">{
+    "scripts": {
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "test:run": "vitest run",
+        "test:coverage": "vitest run --coverage",
+        "test:watch": "vitest watch",
+        "test:debug": "vitest --inspect-brk --inspect"
+    }
+}</code></pre>
+                </div>
+
+                <h3>Step 4: Setup File (Optional)</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// src/test/setup.ts
+import { expect, afterEach } from 'vitest'
+import { cleanup } from '@testing-library/react'
+import * as matchers from '@testing-library/jest-dom/matchers'
+
+// Extend Vitest's expect with jest-dom matchers
+expect.extend(matchers)
+
+// Cleanup after each test
+afterEach(() => {
+    cleanup()
+})
+
+// Global test utilities
+global.testUtils = {
+    delay: (ms: number) => new Promise(resolve => setTimeout(resolve, ms)),
+    mockConsole: () => {
+        const originalLog = console.log
+        console.log = vi.fn()
+        return () => { console.log = originalLog }
+    }
+}</code></pre>
+                </div>
+
+                <h3>Step 5: TypeScript Configuration</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// tsconfig.json
+{
+    "compilerOptions": {
+        "types": ["vitest/globals"],
+        "paths": {
+            "@/*": ["./src/*"],
+            "@components/*": ["./src/components/*"]
+        }
+    },
+    "include": ["src", "tests", "vitest.config.ts"]
+}</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">⏰</span>
+                    <h2>WHEN - Optimal Vitest Usage</h2>
+                </div>
+
+                <h3>Perfect Use Cases for Vitest</h3>
+                <ul>
+                    <li><strong>Vite-based Projects:</strong> Seamless integration, shared config</li>
+                    <li><strong>Modern React/Vue Apps:</strong> First-class framework support</li>
+                    <li><strong>TypeScript Projects:</strong> Native TS support without transpilation</li>
+                    <li><strong>Monorepos:</strong> Excellent workspace support</li>
+                    <li><strong>Performance-Critical Apps:</strong> When test speed matters</li>
+                </ul>
+
+                <h3>Migration Timeline</h3>
+                <div class="alert alert-info">
+                    <div class="alert-title">When to Migrate from Jest</div>
+                    <ul>
+                        <li>✅ Starting a new project: Use Vitest from day one</li>
+                        <li>✅ Slow test suites: Migrate for 2-5x speed boost</li>
+                        <li>✅ ESM issues: Vitest handles modules natively</li>
+                        <li>⚠️ Legacy codebases: Gradual migration with both tools</li>
+                        <li>❌ Heavy Jest plugin usage: Check Vitest compatibility first</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">⚠️</span>
+                    <h2>Common Mistakes to Avoid</h2>
+                </div>
+
+                <div class="alert alert-danger">
+                    <div class="alert-title">Configuration Pitfalls</div>
+                    <ul>
+                        <li><strong>Forgetting globals: true</strong> - Tests fail with "describe is not defined"</li>
+                        <li><strong>Wrong environment</strong> - Using 'node' for DOM tests</li>
+                        <li><strong>Missing setupFiles</strong> - Matchers and utilities not available</li>
+                        <li><strong>Conflicting configs</strong> - Having both jest.config and vitest.config</li>
+                        <li><strong>Import issues</strong> - Not configuring aliases to match app</li>
+                    </ul>
+                </div>
+
+                <h3>Example: Fixing Common Issues</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// ❌ PROBLEM: ReferenceError: describe is not defined
+describe('MyTest', () => {})
+
+// ✅ SOLUTION 1: Enable globals in config
+// vitest.config.ts
+export default defineConfig({
+    test: { globals: true }
+})
+
+// ✅ SOLUTION 2: Import explicitly
+import { describe, it, expect } from 'vitest'
+
+// ❌ PROBLEM: document is not defined
+const button = document.querySelector('button')
+
+// ✅ SOLUTION: Set correct environment
+export default defineConfig({
+    test: { environment: 'jsdom' } // or 'happy-dom'
+})</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">✨</span>
+                    <h2>Best Practices</h2>
+                </div>
+
+                <h3>1. Optimize for Speed</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Use concurrent tests when possible
+describe.concurrent('API tests', () => {
+    test('endpoint 1', async () => { /* ... */ })
+    test('endpoint 2', async () => { /* ... */ })
+    test('endpoint 3', async () => { /* ... */ })
+})
+
+// Use test.skip for WIP tests
+test.skip('feature not implemented yet', () => {})
+
+// Use test.only during development
+test.only('focus on this test', () => {})</code></pre>
+                </div>
+
+                <h3>2. Leverage Vitest UI</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript"># Launch the beautiful UI dashboard
+npm run test:ui
+
+# Features:
+# - Visual test hierarchy
+# - Real-time test results
+# - Coverage visualization
+# - Test filtering and search
+# - Module graph view</code></pre>
+                </div>
+
+                <h3>3. Smart Watch Mode</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// vitest.config.ts
+export default defineConfig({
+    test: {
+        // Only re-run tests affected by changes
+        watch: true,
+
+        // Customize watch behavior
+        watchExclude: ['**/node_modules/**', '**/dist/**'],
+
+        // Run related tests on file change
+        related: {
+            // When a component changes, run its tests
+            'src/**/*.{ts,tsx}': ['src/**/*.test.{ts,tsx}'],
+        }
+    }
+})</code></pre>
+                </div>
+
+                <h3>4. Coverage Goals</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Set coverage thresholds
+export default defineConfig({
+    test: {
+        coverage: {
+            provider: 'v8',
+            thresholds: {
+                statements: 80,
+                branches: 80,
+                functions: 80,
+                lines: 80,
+            },
+            // Fail if coverage drops
+            watermarks: {
+                statements: [80, 95],
+                branches: [80, 95],
+                functions: [80, 95],
+                lines: [80, 95],
+            }
+        }
+    }
+})</code></pre>
+                </div>
+            </section>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🌍</span>
+                    <h2>Real-World Example</h2>
+                </div>
+
+                <h3>Complete Vitest Setup for a React + TypeScript Project</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// Full production-ready vitest.config.ts
+import { defineConfig, mergeConfig } from 'vitest/config'
+import viteConfig from './vite.config'
+
+export default mergeConfig(
+    viteConfig,
+    defineConfig({
+        test: {
+            globals: true,
+            environment: 'jsdom',
+            setupFiles: ['./src/test/setup.ts'],
+
+            // Performance optimizations
+            pool: 'threads',
+            poolOptions: {
+                threads: {
+                    minThreads: 1,
+                    maxThreads: 4,
+                }
+            },
+
+            // Coverage settings
+            coverage: {
+                provider: 'v8',
+                reporter: ['text', 'json-summary', 'html'],
+                exclude: [
+                    'node_modules/',
+                    'src/test/',
+                    '*.config.*',
+                    '**/index.ts',
+                    '**/*.d.ts',
+                ],
+                thresholds: {
+                    statements: 80,
+                    branches: 80,
+                    functions: 80,
+                    lines: 80,
+                }
+            },
+
+            // Test isolation
+            isolate: true,
+            mockReset: true,
+            restoreMocks: true,
+
+            // Reporter configuration
+            reporters: process.env.CI
+                ? ['verbose', 'json', 'junit']
+                : ['verbose'],
+
+            // Output configuration
+            outputFile: {
+                json: './coverage/test-results.json',
+                junit: './coverage/junit.xml',
+            }
+        }
+    })
+)</code></pre>
+                </div>
+
+                <h3>Sample Test File</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">javascript</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <pre><code class="language-javascript">// src/utils/calculator.test.ts
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { Calculator } from './calculator'
+
+describe('Calculator', () => {
+    let calculator: Calculator
+
+    beforeEach(() => {
+        calculator = new Calculator()
+        vi.useFakeTimers()
+    })
+
+    afterEach(() => {
+        vi.useRealTimers()
+        vi.restoreAllMocks()
+    })
+
+    describe('basic operations', () => {
+        it('should add two numbers', () => {
+            expect(calculator.add(2, 3)).toBe(5)
+            expect(calculator.add(-1, 1)).toBe(0)
+            expect(calculator.add(0.1, 0.2)).toBeCloseTo(0.3)
+        })
+
+        it('should handle edge cases', () => {
+            expect(calculator.add(Infinity, 1)).toBe(Infinity)
+            expect(calculator.add(NaN, 1)).toBeNaN()
+        })
+    })
+
+    describe('async operations', () => {
+        it('should calculate with delay', async () => {
+            const promise = calculator.delayedAdd(2, 3, 1000)
+
+            // Fast-forward time
+            vi.advanceTimersByTime(1000)
+
+            const result = await promise
+            expect(result).toBe(5)
+        })
+    })
+
+    describe('error handling', () => {
+        it('should throw on invalid input', () => {
+            expect(() => calculator.divide(1, 0)).toThrow('Division by zero')
+        })
+    })
+})</code></pre>
+                </div>
+            </section>
+
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <h3>Knowledge Check</h3>
+                    <p class="quiz-progress">Test your understanding of Vitest</p>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>1. What is Vitest's main advantage over Jest?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">Better documentation</div>
+                        <div class="quiz-option" data-answer="2" data-correct="true">2-5x faster execution and native ESM support</div>
+                        <div class="quiz-option" data-answer="3">More assertion methods</div>
+                        <div class="quiz-option" data-answer="4">Larger community</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>2. Which environment should you use for React component tests?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">node</div>
+                        <div class="quiz-option" data-answer="2" data-correct="true">jsdom or happy-dom</div>
+                        <div class="quiz-option" data-answer="3">browser</div>
+                        <div class="quiz-option" data-answer="4">webworker</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <h4>3. What percentage of Jest tests work in Vitest without modification?</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-answer="1">50-60%</div>
+                        <div class="quiz-option" data-answer="2">70-75%</div>
+                        <div class="quiz-option" data-answer="3" data-correct="true">85-90%</div>
+                        <div class="quiz-option" data-answer="4">100%</div>
+                    </div>
+                    <div class="quiz-feedback"></div>
+                </div>
+
+                <div class="quiz-actions">
+                    <button class="btn btn-primary quiz-submit">Check Answers</button>
+                </div>
+                <div class="quiz-results" style="display: none;"></div>
+            </div>
+
+            <div class="exercise-container" data-exercise="2-1">
+                <div class="exercise-header">
+                    <h3>Hands-On Exercise</h3>
+                    <span class="exercise-difficulty difficulty-intermediate">Intermediate</span>
+                </div>
+                <div class="exercise-content">
+                    <p><strong>Task:</strong> Set up Vitest in a new project and write your first test suite.</p>
+
+                    <p>Create a simple utility function and test it with Vitest:</p>
+                    <textarea class="exercise-editor">// 1. Create a new project directory
+// 2. Initialize npm: npm init -y
+// 3. Install Vitest: npm install -D vitest
+
+// 4. Create src/utils/stringUtils.js
+export function capitalize(str) {
+    // Implement: capitalize first letter
+}
+
+export function reverse(str) {
+    // Implement: reverse the string
+}
+
+// 5. Create src/utils/stringUtils.test.js
+import { describe, it, expect } from 'vitest'
+import { capitalize, reverse } from './stringUtils'
+
+describe('String Utilities', () => {
+    // Write tests here
+})
+
+// 6. Run: npm test</textarea>
+
+                    <div class="exercise-solution-content" style="display: none;">
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-lang">javascript</span>
+                                <button class="copy-btn">Copy</button>
+                            </div>
+                            <pre><code class="language-javascript">// src/utils/stringUtils.js
+export function capitalize(str) {
+    if (!str) return ''
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
+}
+
+export function reverse(str) {
+    return str.split('').reverse().join('')
+}
+
+// src/utils/stringUtils.test.js
+import { describe, it, expect } from 'vitest'
+import { capitalize, reverse } from './stringUtils'
+
+describe('String Utilities', () => {
+    describe('capitalize', () => {
+        it('should capitalize first letter', () => {
+            expect(capitalize('hello')).toBe('Hello')
+            expect(capitalize('WORLD')).toBe('World')
+        })
+
+        it('should handle empty strings', () => {
+            expect(capitalize('')).toBe('')
+            expect(capitalize(null)).toBe('')
+        })
+    })
+
+    describe('reverse', () => {
+        it('should reverse strings', () => {
+            expect(reverse('hello')).toBe('olleh')
+            expect(reverse('12345')).toBe('54321')
+        })
+    })
+})</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-actions">
+                    <button class="btn btn-secondary exercise-solution">Show Solution</button>
+                </div>
+            </div>
+
+            <section class="lesson-section">
+                <div class="section-header">
+                    <span class="section-icon">🎯</span>
+                    <h2>Key Takeaways</h2>
+                </div>
+
+                <div class="alert alert-success">
+                    <div class="alert-title">What You've Learned</div>
+                    <ul>
+                        <li><strong>Vitest advantages:</strong> 2-5x faster than Jest with zero config</li>
+                        <li><strong>Native ESM:</strong> Works with modern JavaScript without transpilation</li>
+                        <li><strong>Vite integration:</strong> Shares configuration and plugins with your app</li>
+                        <li><strong>Jest compatibility:</strong> Easy migration with 85-90% compatibility</li>
+                        <li><strong>TypeScript/JSX:</strong> Works out-of-the-box without Babel</li>
+                        <li><strong>HMR in tests:</strong> Instant feedback on code changes</li>
+                        <li><strong>UI Dashboard:</strong> Beautiful interface for test management</li>
+                        <li><strong>Configuration:</strong> Single config file for all test needs</li>
+                    </ul>
+                </div>
+            </section>
+
+            <nav class="lesson-nav">
+                <a href="../module1/lesson1-4.html" class="nav-button prev">
+                    <span>← Previous Module</span>
+                </a>
+                <a href="lesson2-2.html" class="nav-button next">
+                    <span>Next: Writing Your First Tests →</span>
+                </a>
+            </nav>
+        </main>
+    </div>
+
+    <script src="../../assets/js/main.js"></script>
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script>
+        // Mark lesson as complete when reaching the end
+        window.addEventListener('load', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (window.progressTracker) {
+                            window.progressTracker.markLessonComplete('2-1');
+                        }
+                    }
+                });
+            });
+
+            const takeaways = document.querySelector('.lesson-nav');
+            if (takeaways) {
+                observer.observe(takeaways);
+            }
+        });
+    </script>
+</body>
+</html>

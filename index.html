@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Testing Course: JavaScript, React & Next.js 15</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🧪</span>
+                <span class="brand-text">Testing Mastery</span>
+            </div>
+            <div class="nav-progress">
+                <div class="progress-text">Overall Progress</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overall-progress"></div>
+                </div>
+                <span class="progress-percentage" id="progress-text">0%</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="hero">
+            <h1>Complete Testing Course</h1>
+            <h2>JavaScript, React & Next.js 15</h2>
+            <p class="hero-subtitle">From Zero to Production Testing Expert</p>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Modules</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">25</span>
+                    <span class="stat-label">Lessons</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">30+</span>
+                    <span class="stat-label">Hours</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Exercises</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="quick-start">
+            <h2>Quick Start Guide</h2>
+            <div class="quick-start-cards">
+                <div class="quick-card">
+                    <div class="quick-icon">👋</div>
+                    <h3>New to Testing?</h3>
+                    <p>Start with Module 1 to build a solid foundation in testing concepts.</p>
+                    <a href="modules/module1/lesson1-1.html" class="btn btn-primary">Start Learning</a>
+                </div>
+                <div class="quick-card">
+                    <div class="quick-icon">⚡</div>
+                    <h3>Know JavaScript?</h3>
+                    <p>Jump into Module 2 to learn Vitest and start writing tests immediately.</p>
+                    <a href="modules/module2/lesson2-1.html" class="btn btn-secondary">Go to Vitest</a>
+                </div>
+                <div class="quick-card">
+                    <div class="quick-icon">⚛️</div>
+                    <h3>React Developer?</h3>
+                    <p>Module 3 covers comprehensive React Testing Library patterns.</p>
+                    <a href="modules/module3/lesson3-1.html" class="btn btn-secondary">Test React</a>
+                </div>
+            </div>
+        </section>
+
+        <main class="modules-section">
+            <h2>Course Modules</h2>
+
+            <div class="module-card" data-module="1">
+                <div class="module-header">
+                    <span class="module-number">01</span>
+                    <div class="module-info">
+                        <h3>Testing Fundamentals</h3>
+                        <p>Build a solid foundation in testing concepts and philosophy</p>
+                        <div class="module-meta">
+                            <span class="duration">📚 3-4 hours</span>
+                            <span class="lessons">📝 4 lessons</span>
+                            <span class="level">🎯 Beginner</span>
+                        </div>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-circle" data-progress="0">
+                            <span>0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="lesson-list">
+                        <a href="modules/module1/lesson1-1.html" class="lesson-item" data-lesson="1-1">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">1.1 What Is Testing and Why Does It Matter?</span>
+                            <span class="lesson-duration">45 min</span>
+                        </a>
+                        <a href="modules/module1/lesson1-2.html" class="lesson-item" data-lesson="1-2">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">1.2 The Testing Mindset</span>
+                            <span class="lesson-duration">30 min</span>
+                        </a>
+                        <a href="modules/module1/lesson1-3.html" class="lesson-item" data-lesson="1-3">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">1.3 Testing Terminology and Concepts</span>
+                            <span class="lesson-duration">45 min</span>
+                        </a>
+                        <a href="modules/module1/lesson1-4.html" class="lesson-item" data-lesson="1-4">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">1.4 Setting Up Your Testing Environment</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card" data-module="2">
+                <div class="module-header">
+                    <span class="module-number">02</span>
+                    <div class="module-info">
+                        <h3>JavaScript Testing with Vitest</h3>
+                        <p>Master JavaScript testing from basics to advanced patterns</p>
+                        <div class="module-meta">
+                            <span class="duration">📚 5-6 hours</span>
+                            <span class="lessons">📝 5 lessons</span>
+                            <span class="level">🎯 Intermediate</span>
+                        </div>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-circle" data-progress="0">
+                            <span>0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="lesson-list">
+                        <a href="modules/module2/lesson2-1.html" class="lesson-item" data-lesson="2-1">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">2.1 Introduction to Vitest</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                        <a href="modules/module2/lesson2-2.html" class="lesson-item" data-lesson="2-2">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">2.2 Writing Your First Tests</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module2/lesson2-3.html" class="lesson-item" data-lesson="2-3">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">2.3 Advanced Assertions and Matchers</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                        <a href="modules/module2/lesson2-4.html" class="lesson-item" data-lesson="2-4">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">2.4 Mocking and Stubbing</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module2/lesson2-5.html" class="lesson-item" data-lesson="2-5">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">2.5 Test Organization and Best Practices</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card" data-module="3">
+                <div class="module-header">
+                    <span class="module-number">03</span>
+                    <div class="module-info">
+                        <h3>React Component Testing</h3>
+                        <p>Professional React testing with React Testing Library</p>
+                        <div class="module-meta">
+                            <span class="duration">📚 6-7 hours</span>
+                            <span class="lessons">📝 5 lessons</span>
+                            <span class="level">🎯 Intermediate</span>
+                        </div>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-circle" data-progress="0">
+                            <span>0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="lesson-list">
+                        <a href="modules/module3/lesson3-1.html" class="lesson-item" data-lesson="3-1">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">3.1 React Testing Library Fundamentals</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module3/lesson3-2.html" class="lesson-item" data-lesson="3-2">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">3.2 Testing Component Interactions</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module3/lesson3-3.html" class="lesson-item" data-lesson="3-3">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">3.3 Testing Hooks and Context</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module3/lesson3-4.html" class="lesson-item" data-lesson="3-4">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">3.4 Async Testing in React</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module3/lesson3-5.html" class="lesson-item" data-lesson="3-5">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">3.5 Advanced Component Testing Patterns</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card" data-module="4">
+                <div class="module-header">
+                    <span class="module-number">04</span>
+                    <div class="module-info">
+                        <h3>Next.js 15 Testing</h3>
+                        <p>Modern Next.js testing with App Router and Server Components</p>
+                        <div class="module-meta">
+                            <span class="duration">📚 7-8 hours</span>
+                            <span class="lessons">📝 5 lessons</span>
+                            <span class="level">🎯 Advanced</span>
+                        </div>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-circle" data-progress="0">
+                            <span>0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="lesson-list">
+                        <a href="modules/module4/lesson4-1.html" class="lesson-item" data-lesson="4-1">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">4.1 Next.js Testing Setup</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module4/lesson4-2.html" class="lesson-item" data-lesson="4-2">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">4.2 Testing App Router Features</span>
+                            <span class="lesson-duration">120 min</span>
+                        </a>
+                        <a href="modules/module4/lesson4-3.html" class="lesson-item" data-lesson="4-3">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">4.3 Server Components Testing</span>
+                            <span class="lesson-duration">120 min</span>
+                        </a>
+                        <a href="modules/module4/lesson4-4.html" class="lesson-item" data-lesson="4-4">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">4.4 Server Actions Testing</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module4/lesson4-5.html" class="lesson-item" data-lesson="4-5">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">4.5 Next.js Production Testing</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="module-card" data-module="5">
+                <div class="module-header">
+                    <span class="module-number">05</span>
+                    <div class="module-info">
+                        <h3>Advanced Testing Patterns</h3>
+                        <p>Production-ready testing strategies and patterns</p>
+                        <div class="module-meta">
+                            <span class="duration">📚 5-6 hours</span>
+                            <span class="lessons">📝 5 lessons</span>
+                            <span class="level">🎯 Advanced</span>
+                        </div>
+                    </div>
+                    <div class="module-progress">
+                        <div class="progress-circle" data-progress="0">
+                            <span>0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <div class="lesson-list">
+                        <a href="modules/module5/lesson5-1.html" class="lesson-item" data-lesson="5-1">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">5.1 Test-Driven Development (TDD)</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module5/lesson5-2.html" class="lesson-item" data-lesson="5-2">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">5.2 Integration Testing</span>
+                            <span class="lesson-duration">90 min</span>
+                        </a>
+                        <a href="modules/module5/lesson5-3.html" class="lesson-item" data-lesson="5-3">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">5.3 End-to-End Testing Strategy</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                        <a href="modules/module5/lesson5-4.html" class="lesson-item" data-lesson="5-4">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">5.4 Testing in CI/CD</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                        <a href="modules/module5/lesson5-5.html" class="lesson-item" data-lesson="5-5">
+                            <span class="lesson-status">○</span>
+                            <span class="lesson-title">5.5 Testing Best Practices and Anti-patterns</span>
+                            <span class="lesson-duration">60 min</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <section class="resources-section">
+            <h2>Learning Resources</h2>
+            <div class="resource-cards">
+                <a href="resources/glossary.html" class="resource-card">
+                    <div class="resource-icon">📖</div>
+                    <h3>Testing Glossary</h3>
+                    <p>Complete testing terminology reference</p>
+                </a>
+                <a href="resources/cheatsheet.html" class="resource-card">
+                    <div class="resource-icon">📋</div>
+                    <h3>Cheat Sheets</h3>
+                    <p>Quick reference for Vitest & RTL</p>
+                </a>
+                <a href="resources/setup-guide.html" class="resource-card">
+                    <div class="resource-icon">🛠️</div>
+                    <h3>Setup Guides</h3>
+                    <p>Configuration templates and examples</p>
+                </a>
+                <a href="resources/exercises.html" class="resource-card">
+                    <div class="resource-icon">💪</div>
+                    <h3>Extra Exercises</h3>
+                    <p>Additional practice problems</p>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Testing Mastery Course. Built with modern web standards.</p>
+            <p>Master testing for JavaScript, React, and Next.js 15</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>
